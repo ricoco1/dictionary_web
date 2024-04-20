@@ -23,7 +23,7 @@ def practice():
 
 @app.route('/detail/<keyword>')
 def detail(keyword):
-    api_key = 'e43e9f3e-2cae-449b-966f-df151e857a6f'
+    api_key = os.getenv('API_KEY')
     url = f'https://www.dictionaryapi.com/api/v3/references/collegiate/json/{keyword}?key={api_key}'
     response = requests.get(url)
     definitions = response.json()
@@ -36,9 +36,17 @@ def detail(keyword):
 
 @app.route('/api/save_word', methods=['POST'])
 def save_word():
+    json_data = request.get_json()
+    word = json_data.get('word_give')
+    definitions = json_data.get('definitions_give')
+    doc = {
+        'word': word,
+        'definitions': definitions,
+    }
+    db.words.insert_one(doc)
     return jsonify({
         'result': 'success',
-        'msg': 'the word was save'
+        'msg': f'the word, {word}, was saved!!!',
     })
 
 @app.route('/api/delete_word', methods=['POST'])
