@@ -27,40 +27,6 @@
     <script src="../static/script.js"></script>
 
     <title>Detail Dictionary</title>
-    <script>
-        let word = '{{ word }}';
-        $(document).ready(function() {
-            //get_definitions();
-        });
-
-        function get_definitions() {
-            let api_key = 'e43e9f3e-2cae-449b-966f-df151e857a6f';
-            let url = `https://www.dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${api_key}`;
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: {},
-                success: function(response) {
-                    let def = response[0];
-                    let category = def.fl;
-                    let shortdef = def.shortdef[0];
-                    let date = def.date;
-                    let temp_html = `
-          <div style="padding: 10px">
-            <i>${category}</i>
-            <br />
-            ${shortdef}
-            <br />
-            <span class="example">${date}</span>
-          </div>
-                    `;
-                    let container = $('#definition');
-                    container.empty();
-                    container.append(temp_html);
-                }
-            });
-        }
-    </script>
 </head>
 
 <body>
