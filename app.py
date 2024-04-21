@@ -42,6 +42,7 @@ def save_word():
     doc = {
         'word': word,
         'definitions': definitions,
+        'date': datetime.now().strftime('%y%m%d'),
     }
     db.words.insert_one(doc)
     return jsonify({

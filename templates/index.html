@@ -15,38 +15,43 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <meta property="og:title" content="Dictonary Website" />
     <meta property="og:description" content="Ini adalah website untuk mencari dan menyimpan dictonary!" />
     <meta property="og:image" content="{{ url_for('static', filename = 'dictonary_logo.png') }}" />
-    <link rel="icon" href="../static/wp_favicon.ico" type="image/x-icon">    <script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
+    <link rel="icon" href="../static/wp_favicon.ico" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
 
     <!-- Import CSS -->
-    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="../static/css/style.css">
     <!-- Import JQuery -->
     <script src="../static/script.js"></script>
-    <title>Dictionary</title>
+
+    <title>Vocabulary Notebook</title>
 </head>
 
 <body>
-    <h1>index.html</h1>
-
+    <!-- banner -->
+    <div class="wrap">
+        <div class="banner" onclick="window.location.href='/';"></div>
+        <div class="search-box d-flex justify-content-center">
+            <input id="input-word" class="form-control" style="margin-right: 0.5rem">
+            <button class="btn btn-light" onclick="find_word()"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+    <!-- footer -->
     <div class="container">
         <footer class="py-3 my-4">
-          <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="/detail/example" class="nav-link px-2 text-muted">Detail</a></li>
-          </ul>
-          <p class="text-center text-muted">© 2024 Rico Pratama</p>
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item"><a href="/detail/example" class="nav-link px-2 text-muted">Home</a></li>
+            </ul>
+            <p class="text-center text-muted">© 2024 Rico Pratama</p>
         </footer>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
+</body>
 
-    <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"
-    ></script>
-    </body>
-    
-    </html>
-
-
+</html>

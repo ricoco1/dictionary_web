@@ -38,3 +38,9 @@ background-color: transparent;
 background-image: none;
 border: #e8344e 1px solid;
 }
+
+.search-box {
+    width: 70%;
+    margin: 50px auto;
+    max-width: 700px;
+}
