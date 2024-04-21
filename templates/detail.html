@@ -27,6 +27,54 @@
     <script src="../static/script.js"></script>
 
     <title>Detail Dictionary</title>
+    <script>
+        let word = "{{ word }}";
+        $(document).ready(function(){
+            
+        });
+        
+        function save_word() {
+          let defs = {{ definitions | tojson }};
+          let data =  {
+              word_give: word,
+              definitions_give: defs,
+          }
+          $.ajax({
+              type: 'POST',
+              url: '/api/save_word',
+              data: JSON.stringify(data),
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              success: function(response) {
+                  if (response.result === 'success') {
+                      alert(response.msg);
+                      window.location.href = `/detail/${word}?status_give=old`;
+                  } else {
+                      alert('Something went wrong');
+                  }
+              }
+          });
+      }
+
+        function delete_word() {
+            $.ajax({
+                type: 'POST',
+                url: '/api/delete_word',
+                data: {
+                    word_give: word,
+                },
+                success: function(response) {
+                    if (response.result === 'success') {
+                        alert(response.msg);
+                        window.location.href = `/detail/${word}?status_give=new`;
+                    } else {
+                        alert('Something went wrong...');
+                    }
+                }
+            });
+        }
+    </script>
 </head>
 
 <body>
@@ -56,11 +104,11 @@
             </div>
             <hr />
             {% if status == 'new' %}
-            <button id="btn-save" class="btn btn-sparta-outline btn-lg">
+            <button id="btn-save" class="btn btn-sparta-outline btn-lg" onclick="save_word()">
                 SAVE
             </button>
             {% else %}
-            <button id="btn-delete" class="btn btn-sparta btn-lg">
+            <button id="btn-delete" class="btn btn-sparta btn-lg" onclick="delete_word()">
                 DELETE
             </button>
             {% endif %}

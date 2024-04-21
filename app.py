@@ -51,9 +51,11 @@ def save_word():
 
 @app.route('/api/delete_word', methods=['POST'])
 def delete_word():
+    word = request.form.get('word_give')
+    db.words.delete_one({'word': word})
     return jsonify({
         'result': 'success',
-        'msg': 'the word was delete'
+        'msg': f'the word {word} was deleted'
     })
 
 if __name__ == '__main__':
