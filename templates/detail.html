@@ -23,8 +23,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
 
     <!-- Import CSS -->
-    <link href='{{ url_for("static", filename="css/style.css") }}' rel="stylesheet">
-
+    <link rel="stylesheet" href="../static/css/style.css">
     <title>Detail Dictionary</title>
     <script>
         let word = "{{ word }}";
@@ -62,10 +61,10 @@
                     if (response.result === 'success') {
                         Swal.fire({
                             icon: 'success',
-                            title: 'Success', 
+                            title: 'Success',
                             text: response.msg,
-                            showConfirmButton: true, 
-                            confirmButtonText: 'OK', 
+                            showConfirmButton: true,
+                            confirmButtonText: 'OK',
                         }).then(function() {
                             window.location.href = `/detail/${word}?status_give=old`;
                         });
@@ -75,7 +74,7 @@
                             title: 'Oops...',
                             text: 'Something went wrong!',
                             showConfirmButton: true,
-                            confirmButtonText: 'OK', 
+                            confirmButtonText: 'OK',
                         });
                     }
                 }
@@ -122,42 +121,43 @@
             });
         }
 
-        function get_examples(){
+        function get_examples() {
             let list = $("#example-list");
             list.empty();
             $.ajax({
                 type: "GET",
                 url: `/api/get_exs?word=${word}`,
-                data:{},
-                success: function (response){
+                data: {},
+                success: function(response) {
                     console.log(response)
-                    if (response.result === 'success'){
+                    if (response.result === 'success') {
                         let examples = response.examples;
                         let temp_html = '';
-                        for(let i = 0; i< examples.length; i++){
+                        for (let i = 0; i < examples.length; i++) {
                             let example = examples[i];
                             let id = example.id;
                             let sentence = example.example;
                             temp_html += `
-                            <li>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>${sentence}</div>
-                                    <div>
-                                        <a href="javascript:delete_ex('${id}')">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                
-                            </li>
+                    <li>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>${sentence}</div>
+                            <div>
+                                <a href="javascript:delete_ex('${id}')">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                    </li>
 
-                            `;
+                    `;
                         }
                         list.append(temp_html);
                     }
                 }
             });
         }
+
         function add_ex() {
             let new_ex = $("#new-example").val();
             if (new_ex.toLowerCase().includes(word.toLowerCase())) {
@@ -187,11 +187,11 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Your sentence must contain the word {{word}}!',
+                    text: 'Your sentence must contain the word {{ word }}!',
                 });
             }
         }
-        
+
         function delete_ex(id) {
             console.log("deleting", id);
             Swal.fire({
@@ -234,9 +234,8 @@
                 }
             });
         }
-        
-
     </script>
+
 </head>
 
 <body>
@@ -279,16 +278,17 @@
                 <div class="card p-3">
                     <h3 style="text-align: center; margin-bottom:1rem">Write your own sentences!</h3>
                     <ul id="example-list">
-                        
+
                     </ul>
                     <div class="d-flex justify-content-between" style="margin-left: 20px;">
-                        <input type="text" id="new-example" class="form-control form-control-sm" style="margin-left:20px; margin-right: 10px;">
+                        <input type="text" id="new-example" class="form-control form-control-sm"
+                            style="margin-left:20px; margin-right: 10px;">
                         <button class="btn btn-outline-secondary btn-sm" onclick="add_ex()">add</button>
                     </div>
-                    
+
                 </div>
             </div>
-            
+
             {% endif %}
         </div>
     </div>
