@@ -23,8 +23,15 @@ def main():
     words_result = db.words.find({}, {'_id': False})
     words = []
     for word in words_result:
-        definition = word['definitions'][0]['shortdef']
-        definition = definition if type(definition) is str else definition[0]
+        definitions = word.get('definitions', [])
+        if definitions:
+            for i in range(4):
+                if len(definitions) > i:
+                    definition = definitions[i].get('shortdef')
+                    if definition:
+                        break
+        else:
+            definition = None
         words.append({
             'word': word['word'],
             'definition': definition,
@@ -35,6 +42,8 @@ def main():
         words=words,
         msg=msg
     )
+
+
 
 @app.route('/detail/<keyword>')
 def detail(keyword):
