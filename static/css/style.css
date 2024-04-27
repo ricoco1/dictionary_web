@@ -44,3 +44,18 @@ border: #e8344e 1px solid;
     margin: 50px auto;
     max-width: 700px;
 }
+tr.highlight > td {
+    background-color: orange;
+    color: white;
+}
+
+tr.highlight a {
+    color: white;    
+}
+
+.no-underline {
+    text-decoration: none;
+}
+.no-underline:hover {
+    text-decoration: underline;
+}

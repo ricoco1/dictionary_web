@@ -28,6 +28,71 @@
     <script src="../static/script.js"></script>
 
     <title>Vocabulary Notebook</title>
+    <style>
+        .table {
+            width: 80%;
+            max-width: 800px;
+            margin: auto;
+            table-layout: fixed;
+        }
+
+        .table th {
+            border-top-style: none;
+        }
+
+        td {
+            background-color: white;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        td>a,
+        a:visited,
+        a:hover,
+        a:active {
+            color: black;
+        }
+
+        thead:first-child tr:first-child th:first-child {
+            border-radius: 10px 0 0 0;
+        }
+
+        thead:first-child tr:first-child th:last-child {
+            border-radius: 0 10px 0 0;
+        }
+
+        tbody:last-child tr:last-child td:first-child {
+            border-radius: 0 0 0 10px;
+        }
+
+        tbody:last-child tr:last-child td:last-child {
+            border-radius: 0 0 10px 0;
+        }
+    </style>
+    <script>
+        let words = {{ words | tojson }};
+        let word_list = [];
+        for (let i = 0; i < words.length; i++) {
+            word_list.push(words[i].word)
+        }
+        function find_word() {
+            let word = $('#input-word').val().toLowerCase().trim();
+            if (!word) {
+              alert('Please type a word');
+              return;
+            }
+            if (word_list.includes(word)) {
+              let row = $(`#word-${word}`);
+              row.addClass('highlight');
+              row.siblings().removeClass('highlight');
+              row[0].scrollIntoView();
+            } else {
+              window.location.href = `/detail/${word}?status_give=new`;
+            }
+          }
+        
+    </script>
 </head>
 
 <body>
@@ -38,7 +103,29 @@
             <input id="input-word" class="form-control" style="margin-right: 0.5rem">
             <button class="btn btn-light" onclick="find_word()"><i class="fa fa-search"></i></button>
         </div>
+        <table class="table">
+            <thead style="background-color: #f1f1f1;">
+                <tr>
+                    <th scope="col" style="width:30%">WORD</th>
+                    <th scope="col">MEANING</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-box" style="background-color: #ffffff;">
+                {% for word in words %}
+                <tr id="word-{{ word.word }}">
+                    <td>
+                        <a class="no-underline" href="/detail/{{ word.word }}?status_give=old">
+                            {{ word.word }}
+                        </a>
+                    </td>
+                    <td>{{ word.definition }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
     </div>
+
     <!-- footer -->
     <div class="container">
         <footer class="py-3 my-4">

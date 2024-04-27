@@ -18,8 +18,22 @@ db = client[DB_NAME]
 app = Flask(__name__)
 
 @app.route('/')
-def practice():
-    return render_template('index.html')
+def main():
+    words_result = db.words.find({}, {'_id': False})
+    words = []
+    for word in words_result:
+        definition = word['definitions'][0]['shortdef']
+        definition = definition if type(definition) is str else definition[0]
+        words.append({
+            'word': word['word'],
+            'definition': definition,
+        })
+    msg = request.args.get('msg')
+    return render_template(
+        'index.html',
+        words=words,
+        msg=msg
+    )
 
 @app.route('/detail/<keyword>')
 def detail(keyword):
@@ -27,12 +41,21 @@ def detail(keyword):
     url = f'https://www.dictionaryapi.com/api/v3/references/collegiate/json/{keyword}?key={api_key}'
     response = requests.get(url)
     definitions = response.json()
+    if not definitions:
+        error_msg = f'Could not find the word "{keyword}"'
+        return render_template('error.html', error_msg=error_msg, keyword=keyword)
+    if type(definitions[0]) is str:
+        suggestions = ', '.join(definitions)
+        error_msg = f'Could not find the word "{keyword}", did you mean {suggestions}'
+        suggestions_list = suggestions.split(", ")
+        return render_template('error.html', error_msg=error_msg, suggestions=suggestions_list, keyword=keyword)
     return render_template(
         'detail.html',
         word=keyword,
         definitions=definitions,
         status=request.args.get('status_give', 'new')
     )
+
 
 @app.route('/api/save_word', methods=['POST'])
 def save_word():
